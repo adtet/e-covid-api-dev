@@ -34,9 +34,9 @@ def regist():
             email = json_data['email']
             paswd = json_data['password']
             id = str(uuid.uuid4().hex)
-            password = hashlib.sha512(paswd.encode()).hexdigest()
+            password = hashlib.sha256(paswd.encode()).hexdigest()
             cek = cek_siswa(nim, username)
-            if cek == 0:
+            if cek == 1:
                 result = {"message": "Already registered"}
                 resp = jsonify(result)
                 resp.status_code = 201
@@ -45,6 +45,40 @@ def regist():
                 input_regist(id, nim, username, jurusan, prodi, kelas, email,
                              password)
                 result = {"message": "Regist success"}
+                resp = jsonify(result)
+                resp.status_code = 200
+                return resp
+
+
+@app.route("/auth/login", methods=['POST'])
+def login():
+    json_data = flask.request.json
+    if json_data == None:
+        result = {"id": "Process Failed", "kelas": "Process Failed"}
+        resp.status_code = 400
+        resp = jsonify(result)
+        return resp
+    else:
+        if 'email' not in json_data and 'password' not in json_data:
+            result = {"id": "Error Process", "kelas": "Error Process"}
+            resp = jsonify(result)
+            resp.status_code = 401
+            return resp
+        else:
+            email = json_data['email']
+            paswd = json_data['password']
+            password = hashlib.sha256(paswd.encode()).hexdigest()
+            cek = cek_login_siswa(email, password)
+            if cek == 0:
+                result = {
+                    "id": "Unregisted Account",
+                    "kelas": "Unregisted Account"
+                }
+                resp = jsonify(result)
+                resp.status_code = 201
+                return resp
+            else:
+                result = {"id": cek[0], "kelas": cek[1]}
                 resp = jsonify(result)
                 resp.status_code = 200
                 return resp
@@ -77,3 +111,20 @@ def input_regist(a, b, c, d, e, f, g, h):
         "INSERT INTO user_regist (id,nim,username,jurusan,prodi,kelas,email,pass) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
         (a, b, c, d, e, f, g, h))
     db.commit()
+
+
+def cek_login_siswa(a, b):
+    db = sql_connection()
+    cursor = db.cursor()
+    cursor.execute(
+        "SELECT id,kelas FROM user_regist where email=%s and pass=%s", (a, b))
+    c = cursor.fetchone()
+    if c == None:
+        return 0
+    else:
+        return c
+
+
+if __name__ == '__main__':
+    # serve(app, host="0.0.0.0", port=4001)
+    app.run(port=4001, debug=True)
