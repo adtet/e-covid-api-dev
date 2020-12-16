@@ -21,7 +21,7 @@ def regist():
         resp = jsonify(result)
         return resp
     else:
-        if 'nim' not in json_data and 'username' not in json_data and 'prodi' not in json_data and 'kelas' not in json_data and 'email' not in json_data and 'password' not in json_data:
+        if 'nim' not in json_data or 'username' not in json_data or 'prodi' not in json_data or 'kelas' not in json_data or 'email' not in json_data or 'password' not in json_data:
             result = {"message": "error request"}
             resp = jsonify(result)
             resp.status_code = 401
@@ -59,7 +59,7 @@ def login():
         resp = jsonify(result)
         return resp
     else:
-        if 'email' not in json_data and 'password' not in json_data:
+        if 'email' not in json_data or 'password' not in json_data:
             result = {"id": "Error Process", "kelas": "Error Process"}
             resp = jsonify(result)
             resp.status_code = 401
