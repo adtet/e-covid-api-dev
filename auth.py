@@ -25,6 +25,7 @@ def regist():
             result = {"message": "error request"}
             resp = jsonify(result)
             resp.status_code = 401
+            return resp
         else:
             nim = json_data['nim']
             username = json_data['username']
