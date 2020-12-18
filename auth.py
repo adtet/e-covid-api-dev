@@ -9,6 +9,7 @@ import datetime
 from datetime import date
 import calendar
 from waitress import serve
+from sqlLib import sql_connection, cek_login_siswa, cek_siswa, input_regist
 app = Flask(__name__)
 
 
@@ -83,47 +84,6 @@ def login():
                 resp = jsonify(result)
                 resp.status_code = 200
                 return resp
-
-
-def sql_connection():
-    db = mysql.connector.connect(host="localhost",
-                                 user="root",
-                                 password="",
-                                 database="db_coba")
-    return db
-
-
-def cek_siswa(a, b):
-    db = sql_connection()
-    cursor = db.cursor()
-    cursor.execute("SELECT id FROM user_regist where nim=%s and username=%s",
-                   (a, b))
-    c = cursor.fetchone()
-    if c == None:
-        return 0
-    else:
-        return 1
-
-
-def input_regist(a, b, c, d, e, f, g, h):
-    db = sql_connection()
-    cursor = db.cursor()
-    cursor.execute(
-        "INSERT INTO user_regist (id,nim,username,jurusan,prodi,kelas,email,pass) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
-        (a, b, c, d, e, f, g, h))
-    db.commit()
-
-
-def cek_login_siswa(a, b):
-    db = sql_connection()
-    cursor = db.cursor()
-    cursor.execute(
-        "SELECT id,kelas FROM user_regist where email=%s and pass=%s", (a, b))
-    c = cursor.fetchone()
-    if c == None:
-        return 0
-    else:
-        return c
 
 
 if __name__ == '__main__':
