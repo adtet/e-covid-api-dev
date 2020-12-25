@@ -1,9 +1,5 @@
 import flask
-import mysql.connector
 from flask import Flask, jsonify, request
-import uuid
-import base64
-import hashlib
 import json
 import datetime
 from datetime import date

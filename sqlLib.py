@@ -70,3 +70,82 @@ def get_jadwal(a, b):
         datas.append(data)  #compare sql data to json
     dataJson = json.dumps(datas)  #compare sql data to json
     return dataJson  #compare sql data to json
+
+
+def get_email(a):
+    db = sql_connection()
+    cursor = db.cursor()
+    cursor.execute("SELECT email FROM user_regist where id=%s", (a, ))
+    c = cursor.fetchone()
+    if c == None:
+        return 0
+    else:
+        return c[0]
+
+
+def get_nim(a):
+    db = sql_connection()
+    cursor = db.cursor()
+    cursor.execute("SELECT nim FROM user_regist where id=%s", (a, ))
+    c = cursor.fetchone()
+    if c == None:
+        return 0
+    else:
+        return c[0]
+
+
+def get_jurusan(a):
+    db = sql_connection()
+    cursor = db.cursor()
+    cursor.execute("SELECT jurusan FROM user_regist where id=%s", (a, ))
+    c = cursor.fetchone()
+    if c == None:
+        return 0
+    else:
+        return c[0]
+
+
+def get_prodi(a):
+    db = sql_connection()
+    cursor = db.cursor()
+    cursor.execute("SELECT prodi FROM user_regist where id=%s", (a, ))
+    c = cursor.fetchone()
+    if c == None:
+        return 0
+    else:
+        return c[0]
+
+
+def get_matkul(a, b, c):
+    db = sql_connection()
+    cursor = db.cursor()
+    cursor.execute(
+        "SELECT matakuliah,dosen FROM schedule where kelas=%s and day=%s and time>=%s and end>=%s",
+        (a, b, c, c))
+    d = cursor.fetchone()
+    if d == None:
+        return 0
+    else:
+        return d
+
+
+def get_matkul_late(a, b, c):
+    db = sql_connection()
+    cursor = db.cursor()
+    cursor.execute(
+        "SELECT matakuliah,dosen FROM schedule where kelas=%s and day=%s and time<=%s and end>=%s",
+        (a, b, c, c))
+    d = cursor.fetchone()
+    if d == None:
+        return 0
+    else:
+        return d
+
+
+def insert_main(a, b, c, d, e, f, g, h, i, j, k, l, m):
+    db = sql_connection()
+    cursor = db.cursor()
+    cursor.execute(
+        "INSERT INTO `main`(`id`, `nim`, `username`, `jurusan`, `prodi`, `kelas`, `email`, `matakuliah`, `dosen`,`day`,`date` ,`time`, `info`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+        (a, b, c, d, e, f, g, h, i, j, k, l, m))
+    db.commit()

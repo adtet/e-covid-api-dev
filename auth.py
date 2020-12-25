@@ -68,7 +68,7 @@ def login():
             return resp
         else:
             email = json_data['email']
-            paswd = json_data['password']
+            paswd = json_data['password']        
             password = hashlib.sha256(paswd.encode()).hexdigest()
             cek = cek_login_siswa(email, password)
             if cek == 0:
@@ -84,7 +84,6 @@ def login():
                 resp = jsonify(result)
                 resp.status_code = 200
                 return resp
-
 
 if __name__ == '__main__':
     # serve(app, host="0.0.0.0", port=4001)
