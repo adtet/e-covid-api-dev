@@ -33,7 +33,7 @@ def schedule():
             if kelas == None:
                 result = []
                 resp = json.dumps(result)
-                return resp, 201
+                return resp, 203
             else:
                 result = get_jadwal(kelas, day)
                 status_code = 200

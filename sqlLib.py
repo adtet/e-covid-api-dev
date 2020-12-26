@@ -149,3 +149,38 @@ def insert_main(a, b, c, d, e, f, g, h, i, j, k, l, m):
         "INSERT INTO `main`(`id`, `nim`, `username`, `jurusan`, `prodi`, `kelas`, `email`, `matakuliah`, `dosen`,`day`,`date` ,`time`, `info`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
         (a, b, c, d, e, f, g, h, i, j, k, l, m))
     db.commit()
+
+
+def cek_present(a, b, c):
+    db = sql_connection()
+    cursor = db.cursor()
+    cursor.execute(
+        "SELECT id FROM main where id=%s and matakuliah=%s ,date=%s",
+        (a, b, c))
+    d = cursor.fetchone()
+    if d == None:
+        return True
+    else:
+        return False
+
+
+def get_username(a):
+    db = sql_connection()
+    cursor = db.cursor()
+    cursor.execute("SELECT username FROM user_regist where id=%s", (a, ))
+    c = cursor.fetchone()
+    if c == None:
+        return 0
+    else:
+        return c[0]
+
+
+def cek_id(a):
+    db = sql_connection()
+    cursor = db.cursor()
+    cursor.execute("SELECT id FROM user_regist where id=%s", (a, ))
+    c = cursor.fetchone()
+    if c == None:
+        return False
+    else:
+        return True
