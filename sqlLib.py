@@ -184,3 +184,32 @@ def cek_id(a):
         return False
     else:
         return True
+
+
+def get_main(a):
+    db = sql_connection()
+    cursor = db.cursor()
+    cursor.execute(
+        "SELECT day,date,matakuliah,dosen,time,info FROM main WHERE id=%s",
+        (a, ))
+    rows = [x for x in cursor]  #compare sql data to json
+    cols = [x[0] for x in cursor.description]  #compare sql data to json
+    datas = []  #compare sql data to json
+    for row in rows:  #compare sql data to json
+        data = {}  #compare sql data to json
+        for prop, val in zip(cols, row):  #compare sql data to json
+            data[prop] = val  #compare sql data to json
+        datas.append(data)  #compare sql data to json
+    dataJson = json.dumps(datas)  #compare sql data to json
+    return dataJson  #compare sql data to json
+
+
+def cek_id_main(a):
+    db = sql_connection()
+    cursor = db.cursor()
+    cursor.execute("SELECT id FROM main where id=%s", (a, ))
+    c = cursor.fetchall()
+    if c == None:
+        return False
+    else:
+        return True
