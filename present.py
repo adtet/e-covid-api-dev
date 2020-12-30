@@ -25,10 +25,10 @@ def absen():
         else:
             id = json_data['id']
             matkul = json_data['matakuliah']
-            time = datetime.datetime.now()
+            time = datetime.now()
             tgl = date.today()
             tgl = tgl.strftime("%d%m%Y")
-            day = datetime.datetime.strptime(tgl, '%d%m%Y').weekday()
+            day = datetime.strptime(tgl, '%d%m%Y').weekday()
             day = calendar.day_name[day]
             day = str(day)
             day = day.lower()
@@ -129,7 +129,7 @@ def absen():
                                 info = "you are absent"
                                 result = {"link": info}
                                 resp = jsonify(result)
-                                resp.status_code = 203
+                                resp.status_code = 207
                                 return resp
                             else:
                                 if matkul == str(late[0]).rstrip('\r\n'):
@@ -166,7 +166,7 @@ def absen():
                                     info = "you are absent"
                                     result = {"link": info}
                                     resp = jsonify(result)
-                                    resp.status_code = 203
+                                    resp.status_code = 208
                                     return resp
 
 
